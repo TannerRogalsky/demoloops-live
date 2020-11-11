@@ -1,0 +1,15 @@
+{
+  "name": "demoloops-web",
+  "collaborators": [
+    "Tanner Rogalsky <tanner@tannerrogalsky.com>"
+  ],
+  "version": "0.1.0",
+  "files": [
+    "demoloops_web_bg.wasm",
+    "demoloops_web.js",
+    "demoloops_web.d.ts"
+  ],
+  "module": "demoloops_web.js",
+  "types": "demoloops_web.d.ts",
+  "sideEffects": false
+}
