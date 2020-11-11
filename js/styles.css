@@ -1,0 +1,8 @@
+body {
+	display: flex;
+}
+
+.CodeMirror {
+	flex-grow: 1;
+	height: auto;
+}
