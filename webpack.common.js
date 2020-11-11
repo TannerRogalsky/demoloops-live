@@ -4,13 +4,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-  mode: 'development',
-  devtool: 'inline-source-map',
-  devServer: {
-    contentBase: false,
-    compress: true,
-    port: 8000
-  },
   entry: {
     app: path.resolve(__dirname, 'js', 'bootstrap.js'),
   },
