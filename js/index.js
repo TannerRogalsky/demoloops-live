@@ -1,15 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Demoloops</title>
-  <style type="text/css">
-    textarea, canvas {
-      display: inline-block;
-    }
-  </style>
-</head>
-<body>
-  <textarea rows="80" cols="80" id="source">
+import CodeMirror from 'codemirror';
+import { Demoloop } from 'demoloops-web';
+
+const DEFAULT_LOOP = `\
 fn update(ratio, width, height) {
     let ctx = Context();
     ctx.clear(Color(0.4, 0.4, 0.8, 1.0));
@@ -70,32 +62,22 @@ fn update(ratio, width, height) {
     }
 
     ctx
+}`;
+
+var cm = CodeMirror(document.body, {
+  value: DEFAULT_LOOP,
+  mode:  "rhai"
+});
+
+let demoloop = new Demoloop();
+demoloop.update(source.value);
+
+source.addEventListener('input', (event) => {
+demoloop.update(event.target.value);
+});
+
+let loop = () => {
+demoloop.step();
+requestAnimationFrame(loop);
 }
-  </textarea>
-  <canvas id="canvas"></canvas>
-  <script type="module">
-    import init, { Demoloop } from './lib/demoloops_web.js';
-
-    async function run() {
-      await init();
-
-      let source = document.getElementById("source");
-
-      let demoloop = new Demoloop();
-      demoloop.update(source.value);
-
-      source.addEventListener('input', (event) => {
-        demoloop.update(event.target.value);
-      });
-
-      let loop = () => {
-        demoloop.step();
-        requestAnimationFrame(loop);
-      }
-      requestAnimationFrame(loop);
-    }
-
-    run();
-  </script>
-</body>
-</html>
+requestAnimationFrame(loop);
