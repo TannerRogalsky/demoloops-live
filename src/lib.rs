@@ -1,3 +1,6 @@
+mod cm_rhai_mode;
+mod codemirror;
+
 use demoloop::*;
 use wasm_bindgen::prelude::*;
 

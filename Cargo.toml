@@ -4,11 +4,17 @@ version = "0.1.0"
 authors = ["Tanner Rogalsky <tanner@tannerrogalsky.com>"]
 edition = "2018"
 
+[profile.release]
+lto = true
+codegen-units = 1
+opt-level = 's'
+
 [lib]
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 demoloop = { path = "../demoloops-rs" }
+rhai = { version = "0.19", features = [ "internals" ] }
 
 log = "0.4"
 wasm-logger = "0.2"

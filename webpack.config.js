@@ -32,4 +32,12 @@ module.exports = {
     syncWebAssembly: true,
     // asyncWebAssembly: true,
   },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      }
+    ]
+  },
 };
