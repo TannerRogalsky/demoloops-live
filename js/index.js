@@ -122,9 +122,6 @@ var editor = CodeMirror(document.body, {
                 cm.execCommand("insertSoftTab");
             }
         },
-        "Ctrl-Enter": cm => {
-            vm.requestRun();
-        },
         "Ctrl-/": "toggleComment",
     },
 });
