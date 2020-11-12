@@ -22,10 +22,17 @@
   },
   "homepage": "https://github.com/TannerRogalsky/demoloops-live#readme",
   "dependencies": {
-    "codemirror": "^5.58.2"
+    "codemirror": "^5.58.2",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-react": "^7.12.5",
     "@wasm-tool/wasm-pack-plugin": "^1.3.1",
+    "babel-loader": "^8.2.1",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^5.0.1",
     "html-webpack-plugin": "^4.5.0",
