@@ -93,6 +93,21 @@ impl Demoloop {
     }
 
     #[wasm_bindgen]
+    pub fn get_duration(&self) -> f32 {
+        self.duration
+    }
+
+    #[wasm_bindgen]
+    pub fn set_duration(&mut self, duration: f32) -> Result<(), JsValue> {
+        if duration > 0.0 {
+            self.duration = duration;
+            Ok(())
+        } else {
+            Err(JsValue::from_str("Duration must be greater than 0."))
+        }
+    }
+
+    #[wasm_bindgen]
     pub fn update(&mut self, source: String) -> Result<(), JsValue> {
         let ScriptContext { engine, ast, .. } = &mut self.ctx.script_ctx;
         *ast = engine.compile(source.as_str()).map_err(to_js)?;
