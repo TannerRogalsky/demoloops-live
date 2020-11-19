@@ -54,7 +54,7 @@ impl Demoloop {
             ctx,
             width,
             height,
-            duration: 1.0,
+            duration: 3.0,
         })
     }
 
