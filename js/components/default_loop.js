@@ -3,57 +3,43 @@ fn update(ratio, width, height) {
     let ctx = Context();
     ctx.clear(Color(0.4, 0.4, 0.8, 1.0));
 
-    let n = 6;
-    let radius = 50.0;
-    let inner_radius = 10.0;
-
-    let exterior_angle = 360.0 / n.to_float();
-    let interior_angle = 180.0 - exterior_angle;
-    let side = 2.0 * (radius + inner_radius) * (180.0 / n.to_float()).sin();
-    let apothem = radius * (180.0 / n.to_float()).cos();
-
-    let central_shape = RegularPolygon(0.0, 0.0, n, radius);
-    let central_color = Color(0.6, 0.2, 0.6, 1.0);
-
-    let outer_shape = RegularPolygon(0.0, 0.0, 6, inner_radius);
-    let outer_color = Color(0.2, 0.2, 0.8, 1.0);
-
-    let black = Color(0.0, 0.0, 0.0, 1.0);
-
-    for y in range(0, 10) {
-        for x in range(0, 10) {
-            let x_offset = (y % 2).to_float() * 0.5;
-            let x_offset = x.to_float() + x_offset;
-            let x = x_offset * radius * 2.0;
-            let y = y.to_float() * apothem * 2.0;
-            
-            let origin = Translation(x, y);
-            ctx.draw(central_shape, origin, central_color);
-            ctx.stroke(central_shape, origin, black);
-        }
+    ctx.set_canvas(resources.canvas);
+    ctx.clear(Color(1.0, 1.0, 1.0, 1.0));
+    let shape = RegularPolygon(0.0, 0.0, 6, 720.0 * 0.75);
+    let tx = Translation(720.0 / 2.0, 720.0 / 2.0);
+    let SHAPES = 5;
+    for shape_index in range(0, SHAPES) {
+        let shape_ratio = 1.0 - shape_index.to_float() / SHAPES.to_float() + ratio % 0.2;
+        let tx = tx * Scale(shape_ratio);
+        ctx.draw(shape, hsl(shape_ratio, 1.0, 0.5), tx);
     }
+    ctx.set_canvas();
 
-    for y in range(0, 10) {
-        for x in range(0, 10) {
-            let x_offset = (y % 2).to_float() * 0.5;
-            let x_offset = x.to_float() + x_offset;
-            let x = x_offset * radius * 2.0;
-            let y = y.to_float() * apothem * 2.0;
-            
-            let origin = Translation(x, y);
+    let Z_INCR = -5.0;
+    let Y_AXIS = 8;
+    let X_AXIS = 4;
 
-            for i in range(0, n) {
-                let inner_ratio = i.to_float() / n.to_float();
-                let mu = inner_ratio * 360.0;
-                let outer_transform = origin 
-                    * Rotation(mu)
-                    * Translation(radius + inner_radius, 0.0)
-                    * Rotation(interior_angle)
-                    * Translation(side * ratio, 0.0)
-                    ;
+    let tx = Translation(0.0, 0.0, Z_INCR * (1.0 - ratio));
 
-                ctx.draw(outer_shape, outer_transform, outer_color);
-                // ctx.stroke(outer_shape, outer_transform, black);
+    for z in range(-1, 50) {
+        for y in range(0, Y_AXIS) {
+            let y_ratio = y.to_float() / Y_AXIS.to_float();
+            for x in range(0, X_AXIS) {
+                let index = x + y * X_AXIS;
+                let inner_ratio = index.to_float() / (X_AXIS * Y_AXIS).to_float();
+
+                let z = z.to_float() * Z_INCR - (inner_ratio * 360.0 * 4.0).sin() * Z_INCR * 0.8;
+
+                let phi = (inner_ratio + ratio * 0.25) * 360.0;
+
+                let rotate = ratio * 360.0 * 0.25;
+
+                let box_geom = Box(1.0, 1.0, 1.0);
+                let tx = tx * Translation(0.0, 0.0, z);
+                let tx = tx * Rotation(0.0, 0.0, phi);
+                let tx = tx * Translation(2.0 * (ratio * 180.0).sin() + 1.0, 0.0, 0.0);
+                let tx = tx * Rotation(0.0, rotate, 0.0);
+                ctx.image(box_geom, resources.canvas, tx);
             }
         }
     }
